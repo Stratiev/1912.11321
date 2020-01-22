@@ -1,3 +1,116 @@
 <h1 id="numerical-calculations-for-arxiv.1912.11321">Numerical calculations for <a href="https://arxiv.org/abs/1912.11321">arXiv.1912.11321</a></h1>
-<p>This repository contains the code used for the numerical analysis performed in <a href="https://arxiv.org/abs/1912.11321">arXiv.1912.11321</a>. The numerics was performed by computing solutions of the system of linear equations and calculating the various properties these solutions have (e.g. total energy, radius, total flux, peak value of B, etc) in MATLAB.</p>
+<hr />
+<h2 id="about">About</h2>
+<p>This repository contains the code used for the numerical analysis performed in <a href="https://arxiv.org/abs/1912.11321">arXiv.1912.11321</a>.</p>
+<p>The numerics was performed by computing solutions of the system of linear equations in <strong>MATLAB</strong>.</p>
+<p><img src="Vortex_Equations.png" width=640></p>
+<p>These solutions are then used to calculate the various properties these solutions have (e.g. <em>total energy</em>, <em>radius</em>, <em>total flux</em>, <em>peak value of B</em>, <em>etc</em>)</p>
 <h2 id="user-guide">User Guide</h2>
+<h3 id="disclaimer">Disclaimer</h3>
+<p>I have only run this on a Unix like environment so if you attempt to run this on Windows it might not work since the path declaration is not consistent with Windows standard. I can, of course, fix this, upon request.</p>
+<h3 id="running-the-code">Running the code</h3>
+<p>When in <strong>MATLAB</strong>, go to the <code>matlab</code> directory and run</p>
+<p><code>dimensionless</code> (or <code>dimensionless_Sixth_order.m</code> if you would like to solve the equations with a 6th order monomial)</p>
+<p>This will produce a plot of the vortex profiles and write down their respective characteristics on a file called <code>data/Dimensionless_Data.txt</code> (or <code>data/Dimensionless_6thorder_Data.txt</code> in the 6th order monomial case)</p>
+<p>The characteristics are recorded to 5 decimal points on a separate line for each run in the following order:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">1</th>
+<th align="center">2</th>
+<th align="center">3</th>
+<th align="center">4</th>
+<th align="center">5</th>
+<th align="center">6</th>
+<th align="center">7</th>
+<th align="center">8</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><em>n</em></td>
+<td align="center"><em>alpha</em></td>
+<td align="center"><em>totalflux</em></td>
+<td align="center"><em>totalenergy</em></td>
+<td align="center"><em>radius</em></td>
+<td align="center"><em>A0max</em></td>
+<td align="center"><em>maxBfield</em></td>
+<td align="center"><em>residue</em></td>
+</tr>
+</tbody>
+</table>
+<p>In addition, the data for each profile is recorded in a file named <code>data/solutions/dimensionless_solution_nVALUEOFn_alphaVALUEOFalpha.csv</code>. The entries in those files are as follows:</p>
+<table>
+<colgroup>
+<col width="14%" />
+<col width="13%" />
+<col width="11%" />
+<col width="17%" />
+<col width="17%" />
+<col width="13%" />
+<col width="13%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">1</th>
+<th align="center">2</th>
+<th align="center">3</th>
+<th align="center">4</th>
+<th align="center">5</th>
+<th align="center">6</th>
+<th align="center">7</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">Radial Position</td>
+<td align="center">Magnetic Field</td>
+<td align="center">Scalar Field</td>
+<td align="center">Electric Potential</td>
+<td align="center">Magnetic Potential</td>
+<td align="center">Electric Field</td>
+<td align="center">Energy Density</td>
+</tr>
+</tbody>
+</table>
+<h3 id="set-parameters">Set parameters</h3>
+<p>One can adjust the parameters from the relevant section in the <code>matlab/dimensionless.m</code> file.</p>
+<pre><code>% Parameter declaration:
+%----------------------------------------
+    global n;
+    global alpha;
+    global zero;
+    n=-20;       % Set flux number.
+    alpha=4;     % Set dimensionless coupling.
+    zero=0.01;   % Low cutoff point for the bvp solver.
+    infty=22;    % High cutoff point for the bvp solver.
+%----------------------------------------</code></pre>
+<h3 id="profile-plots">Profile plots</h3>
+<p>Creating plot image files is done in <em>python</em>. In order to turn these data files into plots, first add the solution you would like to plot at the start of the <code>solution_plot_dimensionless.py</code> file as follows</p>
+<pre><code>your_data = np.genfromtxt(&#39;data/solutions/dimensionless_solution_nVALUEOFn_alphaVALUEOFalpha.csv&#39;, delimiter=&#39;,&#39;, names=[&#39;x&#39;, &#39;B&#39;, &#39;f&#39;, &#39;A0&#39;, &#39;Atheta&#39;,&#39;A0`&#39;, &#39;energy&#39;])</code></pre>
+<p>If, for example, you'd like to plot the magnetic field for your choice of parameters, simply amend the relevant section along with title, legend and filename:</p>
+<pre><code># Plot B:
+# {{{
+#----------------------------------------
+ax=plt.gca()
+plt.title(&#39;Magnetic Field Profiles for n=-1&#39;, FontSize=25)
+plt.plot(data_n_1_param1[&#39;x&#39;], data_n_1_param1[&#39;B&#39;], &#39;-&#39;,LineWidth=1.6,c=&#39;b&#39;)
+plt.plot(data_n_1_param2[&#39;x&#39;], data_n_1_param2[&#39;B&#39;], &#39;--&#39;,LineWidth=1.6,c=&#39;r&#39;)
+plt.plot(data_n_1_param3[&#39;x&#39;], data_n_1_param3[&#39;B&#39;], &#39;-&#39;,LineWidth=1.6,c=&#39;g&#39;)
+plt.plot(data_n_1_param4[&#39;x&#39;], data_n_1_param4[&#39;B&#39;], &#39;-&#39;,LineWidth=1.6,c=&#39;m&#39;)
+plt.plot(data_n_1_param5[&#39;x&#39;], data_n_1_param5[&#39;B&#39;], &#39;-&#39;,LineWidth=1.6,c=&#39;tab:orange&#39;)
+plt.plot(your_data[&#39;x&#39;], your_data[&#39;B&#39;], &#39;-&#39;,LineWidth=1.6,c=&#39;tab:cyan&#39;)
+plt.xlabel(r&#39;$\hat{r}$&#39;,FontSize=20)
+plt.ylabel(r&#39;$\hat{B}(\hat{r})$&#39;,FontSize=20)
+ax.set_ylim(bottom=-1.02)
+ax.set_xlim(left=0,right=30)
+ax.legend((r&#39;$\alpha =1$&#39;, r&#39;$\alpha =2$&#39;,r&#39;$\alpha =3$&#39;,r&#39;$\alpha =4$&#39;,r&#39;$\alpha =5$&#39;))
+plt.tight_layout()
+plt.savefig(&#39;python-plots/solution_plots/solution_dimensionless_nVALUEOFn_Bvsalpha&#39;)
+plt.clf()
+#----------------------------------------
+# }}}</code></pre>
+<h3 id="plots-of-the-various-characteristics">Plots of the various characteristics</h3>
+<p>The plots for the various characteristics are produced in a similar way, again in <em>python</em>. You can either use the data from <code>data/Dimensionless_Data.txt</code> (or <code>data/Dimensionless_6thorder_Data.txt</code>) or you can copy specific lines from that file, that correspond to solutions you have double checked, into a separate file. Then again you include the data in the <code>alphapythonplot.py</code> file as follows:</p>
+<pre><code>your_characteristic_data = np.genfromtxt(&#39;data/your_data_file.txt&#39;, delimiter=&#39; &#39;, names=[&#39;n&#39;, &#39;alpha&#39;, &#39;flux&#39;, &#39;energy&#39;, &#39;radius&#39;, &#39;A0&#39;, &#39;peakB&#39;, &#39;residue&#39;])</code></pre>
+<p>And from here on, it's up to <em>you</em> how you will use that data. I hope this is useful!</p>

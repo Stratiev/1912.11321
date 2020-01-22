@@ -189,7 +189,7 @@ plt.clf()
 # {{{
 #----------------------------------------
 ax=plt.gca()
-plt.title('Scalar Field Profiles at strong coupling for various n', FontSize=15)
+plt.title(r'Scalar Field Profiles for $\alpha=1$', FontSize=15)
 plt.plot(data_n_1_param1['x'], data_n_1_param1['f'], '-',LineWidth=1.1,c='b')
 plt.plot(data_n_2_param1['x'], data_n_2_param1['f'], '-',LineWidth=1.1,c='r')
 plt.plot(data_n_3_param1['x'], data_n_3_param1['f'], '-',LineWidth=1.1,c='g')
@@ -210,7 +210,7 @@ plt.clf()
 # {{{
 #----------------------------------------
 ax=plt.gca()
-plt.title('Magnetic Field Profiles at strong coupling for various n', FontSize=15)
+plt.title(r'Magnetic Field Profiles for $\alpha=1$', FontSize=15)
 plt.plot(data_n_1_param1['x'], data_n_1_param1['B'], '-',LineWidth=1.1,c='b')
 plt.plot(data_n_2_param1['x'], data_n_2_param1['B'], '-',LineWidth=1.1,c='r')
 plt.plot(data_n_3_param1['x'], data_n_3_param1['B'], '-',LineWidth=1.1,c='g')
@@ -231,7 +231,7 @@ plt.clf()
 # {{{
 #----------------------------------------
 ax=plt.gca()
-plt.title('Electric Field Profiles at strong coupling for various n', FontSize=15)
+plt.title(r'Electric Field Profiles for $\alpha=1$', FontSize=15)
 plt.plot(data_n_1_param1['x'], data_n_1_param1['A0`'], '-',LineWidth=1.1,c='b')
 plt.plot(data_n_2_param1['x'], data_n_2_param1['A0`'], '-',LineWidth=1.1,c='r')
 plt.plot(data_n_3_param1['x'], data_n_3_param1['A0`'], '-',LineWidth=1.1,c='g')
@@ -252,7 +252,7 @@ plt.clf()
 # {{{
 #----------------------------------------
 ax=plt.gca()
-plt.title('Energy Density Profiles at strong coupling for various n', FontSize=15)
+plt.title(r'Energy Density Profiles for $\alpha=1$', FontSize=15)
 plt.plot(data_n_1_param1['x'], data_n_1_param1['energy'], '-',LineWidth=1.1,c='b')
 plt.plot(data_n_2_param1['x'], data_n_2_param1['energy'], '-',LineWidth=1.1,c='r')
 plt.plot(data_n_3_param1['x'], data_n_3_param1['energy'], '-',LineWidth=1.1,c='g')
@@ -273,7 +273,7 @@ plt.clf()
 # {{{
 #----------------------------------------
 ax=plt.gca()
-plt.title('Charge density profile at strong coupling for various n', FontSize=15)
+plt.title(r'Charge density profile for $\alpha=1$', FontSize=15)
 plt.plot(data_n_1_param1['x'], data_n_1_param1['A0'], '-',LineWidth=1.1,c='b')
 plt.plot(data_n_2_param1['x'], data_n_2_param1['A0'], '-',LineWidth=1.1,c='r')
 plt.plot(data_n_3_param1['x'], data_n_3_param1['A0'], '-',LineWidth=1.1,c='g')
@@ -294,7 +294,7 @@ plt.clf()
 # {{{
 #----------------------------------------
 ax=plt.gca()
-plt.title(r'$A_{\theta}$ profile at strong coupling for various n', FontSize=15)
+plt.title(r'$A_{\theta}$ profile for $\alpha=1$', FontSize=15)
 plt.plot(data_n_1_param1['x'], data_n_1_param1['Atheta'], '-',LineWidth=1.1,c='b')
 plt.plot(data_n_2_param1['x'], data_n_2_param1['Atheta'], '-',LineWidth=1.1,c='r')
 plt.plot(data_n_3_param1['x'], data_n_3_param1['Atheta'], '-',LineWidth=1.1,c='g')
@@ -316,7 +316,7 @@ plt.clf()
 # {{{
 #----------------------------------------
 ax=plt.gca()
-plt.title('Energy Density Profiles at strong coupling for various n', FontSize=15)
+plt.title(r'Energy Density Profiles for $\alpha=1$', FontSize=15)
 plt.plot(data_n_1_param1['x'], data_n_1_param1['energy']*data_n_1_param1['x'], '-',LineWidth=1.1,c='b')
 plt.plot(data_n_2_param1['x'], data_n_2_param1['energy']*data_n_2_param1['x'], '-',LineWidth=1.1,c='r')
 plt.plot(data_n_3_param1['x'], data_n_3_param1['energy']*data_n_3_param1['x'], '-',LineWidth=1.1,c='g')

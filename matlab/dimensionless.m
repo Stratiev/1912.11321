@@ -6,11 +6,9 @@ clear all
     global n;
     global alpha;
     global zero;
-    n=-20;
-    alpha=4;
-    lastel=8150; % High cutoff point for the plot.
-    firstel=1;  % Low cutoff point for the plot.
-    zero=0.01;      % High cutoff point for the bvp solver.
+    n=-20;       % Set flux number.
+    alpha=4;     % Set dimensionless coupling.
+    zero=0.01;   % Low cutoff point for the bvp solver.
     infty=22;    % High cutoff point for the bvp solver.
 %----------------------------------------
 
@@ -20,7 +18,6 @@ clear all
     solinit = bvpinit(xmesh, @guess);
     opts=bvpset('Stats', 'on', 'NMax', 185000);
     sol = bvp4c(@bvpfunc, @bcfunction, solinit,opts);
-    lastel = size(sol.x,2);
     residue=sol.stats.maxres;
 %----------------------------------------
 
@@ -42,7 +39,7 @@ clear all
 % Energy Computation:
 %----------------------------------------
     energy = energyd(sol.y, sol.x);
-    coreEnergy=coreE(energy(firstel), zero);
+    coreEnergy=coreE(energy(1), zero);
 %----------------------------------------
 
 % Plots:
@@ -55,7 +52,7 @@ clear all
 set(gca, 'ColorOrder', [1 0 0; 0.7 0.1 0.8; 0 1 0; 0.7 0.2 0.1;0.1 0.2 1;0.2 0.2 0.1],'NextPlot', 'replacechildren');   
 
 % This defines which profiles are to be plotted.
-    plot(sol.x(firstel:lastel),Bfield(firstel:lastel), sol.x(firstel:lastel), sol.y(1,firstel:lastel), sol.x(firstel:lastel), A0(firstel:lastel)-1, sol.x(firstel:lastel) , flux(firstel:lastel), '--', sol.x(firstel:lastel),derivA0(firstel:lastel),sol.x(firstel:lastel), energy(firstel:lastel), 'LineWidth', 2)
+    plot(sol.x,Bfield, sol.x, sol.y(1,1:end), sol.x, A0-1, sol.x , flux, '--', sol.x,derivA0,sol.x, energy, 'LineWidth', 2)
 legend('B(r)','f(r)','A_0(r)','A_\theta(r)','E(r)',"ℰ(r)",'Location','northeast','FontSize',18);
 
 % Title
@@ -74,7 +71,7 @@ title(mytitleText,'FontSize', 20);
     dx1=[dx, dx(end)];
     dx2=[dx(1),dx];
     dx = dx1./2 + dx2./2;
-    coreFlux=coreE(Bfield(firstel), zero);
+    coreFlux=coreE(Bfield(1), zero);
     totalflux=sum(sol.x.*Bfield.*dx(1:end))+coreFlux;
     totalenergy=sum(sol.x.*energy.*dx(1:end))+coreEnergy;
     radius=radest(energy, sol.x);
@@ -82,7 +79,7 @@ title(mytitleText,'FontSize', 20);
     [maxenergy, indexof_maxenergy] = max(energy);
     [maxBfield, indexof_maxBfield] = max(Bfield);
     radius_energy_peak_based=max(sol.x(indexof_maxenergy));
-    A0max=A0(firstel);
+    A0max=A0(1);
     A0fint=sum(sol.x.*A0.*dx(1:end));
     totalremainderenergy=sum(remainderenergy.*dx);
     totalremainderBPSeqn=sum(BPSenergy.*dx);
@@ -103,7 +100,7 @@ title(mytitleText,'FontSize', 20);
     % Writes solutions to file ../data/solutions/dimensionless_solution_n<<value of n>>_alpha<<value of alpha>>.csv
     % The profiles are the Magnetic field, scalar field, A0, Atheta, the electric field and the energy.
     %----------------------------------------
-    solution_to_write=[sol.x(firstel:lastel);Bfield(firstel:lastel); sol.y(1,firstel:lastel);  A0(firstel:lastel)-1; flux(firstel:lastel);derivA0(firstel:lastel); energy(firstel:lastel)];
+    solution_to_write=[sol.x;Bfield; sol.y(1,1:end);  A0-1; flux;derivA0; energy];
     solutions_filename = ['../data/solutions/dimensionless_solution_n',num2str(n),'_alpha',num2str(alpha),'.csv'];
     flush_old_data = fopen(solutions_filename, 'w');
     overwrite = fprintf(flush_old_data, '');
@@ -117,7 +114,7 @@ title(mytitleText,'FontSize', 20);
 
     % Writes the error in how well the BPS equation is satisfied to a file ../data/solutions/dimensionless_BPS_eqn_n<<value of n>>_alpha<<value of alpha>>.csv
     %----------------------------------------
-    BPS_data_to_write=[sol.x(firstel:lastel); sol.y(2,firstel:lastel)- sol.y(4,firstel:lastel).*sol.y(1,firstel:lastel)];
+    BPS_data_to_write=[sol.x; sol.y(2,1:end)- sol.y(4,1:end).*sol.y(1,1:end)];
     BPS_filename = ['../data/solutions/dimensionless_BPS_eqn_n',num2str(n),'_alpha',num2str(alpha),'.csv'];
     flush_old_data_BPS = fopen(BPS_filename, 'w');
     overwrite = fprintf(flush_old_data_BPS, '');
